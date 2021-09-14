@@ -4,17 +4,18 @@ import telegram
 
 class Alarmbot:
     def __init__(self):
-        token = "1977222686:AAEz7_F-QdlG3ERlmNmMxTXbtdxJVZt85IY"
+        token = "TOKEN"
         self.bot = telegram.Bot(token)
         pass
 
     def trace_klay_aklay(self):
-        ratio = self.get_aklayratio()
-        
-        if(ratio > 1.03 or ratio < 1.005):
-            msg = "1klay = {}aklay".format(ratio)
-            self.bot.sendMessage(chat_id=1756685757 , text = msg)
-
+        try:
+            ratio = self.get_aklayratio()
+            if(ratio > 1.03 or ratio < 1.005):
+                msg = "1klay = {}aklay".format(ratio)
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+        except:
+            pass
         pass
 
 
