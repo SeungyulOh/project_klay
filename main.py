@@ -7,7 +7,7 @@ class AsyncTask:
         pass
 
     def TaskA(self):
-        self.Alarmbot.trace_klay_aklay()
+        self.Alarmbot.trace_synthetics_premium()
         threading.Timer(10,self.TaskA).start()
 
 if __name__ == "__main__":
