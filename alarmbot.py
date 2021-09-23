@@ -18,6 +18,13 @@ global KAIKSDUNAMULP
 KAIKSDUNAMULP : str = '0xb7aa1890828d867c25725f0c2ef3182a1a1ec71e'
 global KAIKSYANOLJALP
 KAIKSYANOLJALP : str = '0xcb8bbcaacbc33d391930e9063d26f6c076cb3c73'
+global KAIKSETHERIUMLP
+KAIKSETHERIUMLP : str = '0x776898cad4f8ba58b533a2c20b975c880db57b63'
+global KAIKSSOLLP
+KAIKSSOLLP : str = '0xd5dc92f74e8392ef953ab81b3b4cb930daa956b8'
+global KAIKSLUNALP
+KAIKSLUNALP : str = '0xf444e2a6cd5b9a1d207aba33ac8026ae68d2c150'
+
 global SYNTHESISURL
 SYNTHESISURL : str = 'https://api.kaiprotocol.fi/getpricehistory?symbol={}&period=minutes'
 
@@ -38,8 +45,8 @@ class Alarmbot:
         pass
 
     def setminmax(self, updates, ctx):
-        self.min = float(ctx.args[0])
-        self.max = float(ctx.args[1])
+        self.min = float(ctx.args[0]) * 0.01
+        self.max = float(ctx.args[1]) * 0.01
         pass
     
 
@@ -78,10 +85,35 @@ class Alarmbot:
             cb_currentprice = self.get_kscoinbaseprice()
             cb_premium = (cb_currentprice - cb_startprice) / cb_startprice
             msg = "coinbase premium : {:.2f} %".format(cb_premium * 100)
-            
             print("{}".format(msg))
             if(cb_premium < self.min or cb_premium > self.max):
                 self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            eth_startprice = self.get_synthesis_price('ksETH')
+            eth_currentprice = self.get_ksetherium()
+            eth_premium = (eth_currentprice - eth_startprice) / eth_startprice
+            msg = "ksETH premium : {:.2f} %".format(eth_premium * 100)
+            print("{}".format(msg))
+            if(eth_premium < self.min or eth_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            sol_startprice = self.get_synthesis_price('ksSOL')
+            sol_currentprice = self.get_ksSOL()
+            sol_premium = (sol_currentprice - sol_startprice) / sol_startprice
+            msg = "ksSOL premium : {:.2f} %".format(sol_premium * 100)
+            print("{}".format(msg))
+            if(sol_premium < self.min or sol_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            luna_startprice = self.get_synthesis_price('ksLUNA')
+            luna_currentprice = self.get_ksLUNA()
+            luna_premium = (luna_currentprice - luna_startprice) / luna_startprice
+            msg = "ksLUNA premium : {:.2f} %".format(luna_premium * 100)
+            print("{}".format(msg))
+            if(luna_premium < self.min or luna_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+            
+            
         except:
             pass
         pass
@@ -114,6 +146,58 @@ class Alarmbot:
                 ksyanolja_totalamount = pow(10 , -int(value['decimals'])) *int(data['result'][0]['amount']) 
 
         return (kai_totalamount / ksyanolja_totalamount) * self.get_kaiprice()
+
+
+    def get_ksLUNA(self):
+        global KAIKSLUNALP
+        url_LP_balance : str = self.get_lpbalance_url(KAIKSLUNALP)
+
+        response = requests.request("GET", url_LP_balance)
+        data = response.json()
+
+        kai_totalamount = 0
+        target_totalamount = 0
+        for key , value in data['tokens'].items():
+            if(value['symbol'] == "KAI"):
+                kai_totalamount = pow(10 , -int(value['decimals'])) *int(data['result'][1]['amount']) 
+            if(value['symbol'] == "ksLUNA"):
+                target_totalamount = pow(10 , -int(value['decimals'])) *int(data['result'][0]['amount']) 
+
+        return (kai_totalamount / target_totalamount) * self.get_kaiprice()
+
+    def get_ksSOL(self):
+        global KAIKSSOLLP
+        url_LP_balance : str = self.get_lpbalance_url(KAIKSSOLLP)
+
+        response = requests.request("GET", url_LP_balance)
+        data = response.json()
+
+        kai_totalamount = 0
+        target_totalamount = 0
+        for key , value in data['tokens'].items():
+            if(value['symbol'] == "KAI"):
+                kai_totalamount = pow(10 , -int(value['decimals'])) *int(data['result'][1]['amount']) 
+            if(value['symbol'] == "ksSOL"):
+                target_totalamount = pow(10 , -int(value['decimals'])) *int(data['result'][0]['amount']) 
+
+        return (kai_totalamount / target_totalamount) * self.get_kaiprice()
+
+    def get_ksetherium(self):
+        global KAIKSETHERIUMLP
+        url_LP_balance : str = self.get_lpbalance_url(KAIKSETHERIUMLP)
+
+        response = requests.request("GET", url_LP_balance)
+        data = response.json()
+
+        kai_totalamount = 0
+        target_totalamount = 0
+        for key , value in data['tokens'].items():
+            if(value['symbol'] == "KAI"):
+                kai_totalamount = pow(10 , -int(value['decimals'])) *int(data['result'][1]['amount']) 
+            if(value['symbol'] == "ksETH"):
+                target_totalamount = pow(10 , -int(value['decimals'])) *int(data['result'][0]['amount']) 
+
+        return (kai_totalamount / target_totalamount) * self.get_kaiprice()
 
     def get_ksdunamuprice(self):
         global KAIKSDUNAMULP
