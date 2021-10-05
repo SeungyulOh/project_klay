@@ -7,8 +7,8 @@ class AsyncTask:
         pass
 
     def TaskA(self):
-        self.Alarmbot.trace_synthetics_premium()
-        threading.Timer(10,self.TaskA).start()
+        self.Alarmbot.trace_ksd_premium()
+        threading.Timer(5,self.TaskA).start()
 
 if __name__ == "__main__":
     at = AsyncTask()
