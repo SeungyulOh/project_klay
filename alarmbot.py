@@ -5,7 +5,7 @@ import datetime
 
 
 global TELEGRAMTOKEN
-TELEGRAMTOKEN : str = "ENTER"
+TELEGRAMTOKEN : str = "NONE"
 global KLAYUSDTLP
 KLAYUSDTLP : str = "0xd83f1b074d81869eff2c46c530d7308ffec18036"
 global KLAYAKLAYLP
@@ -72,14 +72,18 @@ class Alarmbot:
 
     def trace_ksd_premium(self):
         try:
-            #price = self.get_ksdprice()
-            juns_price = self.get_junsprice()
-            jun_price = self.get_junprice()
-            if(jun_price < 6):
-                msg = "jun = {:.2f}".format(jun_price)
-                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+            # price = self.get_ksdprice()
+            # if(price > 1.12):
+            #     msg = "ksd = {:.2f}".format(price)
+            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
 
-            if(juns_price < 300):
+            juns_price = self.get_junsprice()
+            #jun_price = self.get_junprice()
+            # if(jun_price < 2.0):
+            #     msg = "jun = {:.2f}".format(jun_price)
+            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            if(juns_price < 42 or juns_price > 75):
                 msg = "juns = {:.2f}".format(juns_price)
                 self.bot.sendMessage(chat_id=1756685757 , text = msg)
 
@@ -98,60 +102,60 @@ class Alarmbot:
         try:
             print(datetime.datetime.now())
 
-            # dm_startprice = self.get_synthesis_price('ksDUNAMU')
-            # dm_currentprice = self.get_ksdunamuprice()
-            # dm_premium = (dm_currentprice - dm_startprice) / dm_startprice
-            # msg = "dunamu premium : {:.2f} %".format(dm_premium * 100)
-            # print("{}".format(msg))
-            # if(dm_premium < self.min or dm_premium > self.max):
-            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
-
-            # yj_startprice = self.get_synthesis_price('ksYANOLJA')
-            # yj_currentprice = self.get_ksyanolja()
-            # yj_premium = (yj_currentprice - yj_startprice) / yj_startprice
-            # msg = "yanolja premium : {:.2f} %".format(yj_premium * 100)
-            # print("{}".format(msg))
-            # if(yj_premium < self.min or yj_premium > self.max):
-            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
-
-            # cb_startprice = self.get_synthesis_price('ksCOINBASE')
-            # cb_currentprice = self.get_kscoinbaseprice()
-            # cb_premium = (cb_currentprice - cb_startprice) / cb_startprice
-            # msg = "coinbase premium : {:.2f} %".format(cb_premium * 100)
-            # print("{}".format(msg))
-            # if(cb_premium < self.min or cb_premium > self.max):
-            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
-
-            # eth_startprice = self.get_synthesis_price('ksETH')
-            # eth_currentprice = self.get_ksetherium()
-            # eth_premium = (eth_currentprice - eth_startprice) / eth_startprice
-            # msg = "ksETH premium : {:.2f} %".format(eth_premium * 100)
-            # print("{}".format(msg))
-            # if(eth_premium < self.min or eth_premium > self.max):
-            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
-
-            # sol_startprice = self.get_synthesis_price('ksSOL')
-            # sol_currentprice = self.get_ksSOL()
-            # sol_premium = (sol_currentprice - sol_startprice) / sol_startprice
-            # msg = "ksSOL premium : {:.2f} %".format(sol_premium * 100)
-            # print("{}".format(msg))
-            # if(sol_premium < self.min or sol_premium > self.max):
-            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
-
-            # luna_startprice = self.get_synthesis_price('ksLUNA')
-            # luna_currentprice = self.get_ksLUNA()
-            # luna_premium = (luna_currentprice - luna_startprice) / luna_startprice
-            # msg = "ksLUNA premium : {:.2f} %".format(luna_premium * 100)
-            # print("{}".format(msg))
-            # if(luna_premium < self.min or luna_premium > self.max):
-            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
-
-            sbwpm_price = self.get_sbwpmprice()
-            if(self.prev != sbwpm_price):
-                self.prev = sbwpm_price
-                delta = ((sbwpm_price - 3364.125) / 3364.125) * 100
-                msg = "sbwpm_price : {:.2f} , {:.2f} %".format(sbwpm_price , delta)
+            dm_startprice = self.get_synthesis_price('ksDUNAMU')
+            dm_currentprice = self.get_ksdunamuprice()
+            dm_premium = (dm_currentprice - dm_startprice) / dm_startprice
+            msg = "dunamu premium : {:.2f} %".format(dm_premium * 100)
+            #print("{}".format(msg))
+            if(dm_premium < self.min or dm_premium > self.max):
                 self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            yj_startprice = self.get_synthesis_price('ksYANOLJA')
+            yj_currentprice = self.get_ksyanolja()
+            yj_premium = (yj_currentprice - yj_startprice) / yj_startprice
+            msg = "yanolja premium : {:.2f} %".format(yj_premium * 100)
+            #print("{}".format(msg))
+            if(yj_premium < self.min or yj_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            cb_startprice = self.get_synthesis_price('ksCOINBASE')
+            cb_currentprice = self.get_kscoinbaseprice()
+            cb_premium = (cb_currentprice - cb_startprice) / cb_startprice
+            msg = "coinbase premium : {:.2f} %".format(cb_premium * 100)
+            #print("{}".format(msg))
+            if(cb_premium < self.min or cb_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            eth_startprice = self.get_synthesis_price('ksETH')
+            eth_currentprice = self.get_ksetherium()
+            eth_premium = (eth_currentprice - eth_startprice) / eth_startprice
+            msg = "ksETH premium : {:.2f} %".format(eth_premium * 100)
+            #print("{}".format(msg))
+            if(eth_premium < self.min or eth_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            sol_startprice = self.get_synthesis_price('ksSOL')
+            sol_currentprice = self.get_ksSOL()
+            sol_premium = (sol_currentprice - sol_startprice) / sol_startprice
+            msg = "ksSOL premium : {:.2f} %".format(sol_premium * 100)
+            #print("{}".format(msg))
+            if(sol_premium < self.min or sol_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            luna_startprice = self.get_synthesis_price('ksLUNA')
+            luna_currentprice = self.get_ksLUNA()
+            luna_premium = (luna_currentprice - luna_startprice) / luna_startprice
+            msg = "ksLUNA premium : {:.2f} %".format(luna_premium * 100)
+            #print("{}".format(msg))
+            if(luna_premium < self.min or luna_premium > self.max):
+                self.bot.sendMessage(chat_id=1756685757 , text = msg)
+
+            # sbwpm_price = self.get_sbwpmprice()
+            # if(self.prev != sbwpm_price):
+            #     self.prev = sbwpm_price
+            #     delta = ((sbwpm_price - 3364.125) / 3364.125) * 100
+            #     msg = "sbwpm_price : {:.2f} , {:.2f} %".format(sbwpm_price , delta)
+            #     self.bot.sendMessage(chat_id=1756685757 , text = msg)
 
             
         except:
